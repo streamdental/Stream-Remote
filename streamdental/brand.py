@@ -43,6 +43,7 @@ sub(cfg, r'pub static ref OVERWRITE_SETTINGS: RwLock<HashMap<String, String>> = 
     f'        ("custom-rendezvous-server".to_owned(), "{SERVER}".to_owned()),\n'
     f'        ("relay-server".to_owned(), "{SERVER}".to_owned()),\n'
     f'        ("key".to_owned(), "{PUB_KEY}".to_owned()),\n'
+    f'        ("api-server".to_owned(), "https://{SERVER}".to_owned()),\n'
     '    ]));')
 
 # 2. Windows runner fallback name and version resources
