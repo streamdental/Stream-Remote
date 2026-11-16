@@ -37,6 +37,13 @@ sub(cfg, r'RwLock::new\("RustDesk"\.to_owned\(\)\)', f'RwLock::new("{APP_NAME}".
 sub(cfg, r'pub const RENDEZVOUS_SERVERS: &\[&str\] = &\[[^\]]*\];',
     f'pub const RENDEZVOUS_SERVERS: &[&str] = &["{SERVER}"];')
 sub(cfg, r'pub const RS_PUB_KEY: &str = "[^"]*";', f'pub const RS_PUB_KEY: &str = "{PUB_KEY}";')
+# Locked settings: shown filled in under Network and cannot be changed by the user
+sub(cfg, r'pub static ref OVERWRITE_SETTINGS: RwLock<HashMap<String, String>> = Default::default\(\);',
+    'pub static ref OVERWRITE_SETTINGS: RwLock<HashMap<String, String>> = RwLock::new(HashMap::from([\n'
+    f'        ("custom-rendezvous-server".to_owned(), "{SERVER}".to_owned()),\n'
+    f'        ("relay-server".to_owned(), "{SERVER}".to_owned()),\n'
+    f'        ("key".to_owned(), "{PUB_KEY}".to_owned()),\n'
+    '    ]));')
 
 # 2. Windows runner fallback name and version resources
 sub("flutter/windows/runner/main.cpp", r'std::wstring app_name = L"RustDesk";',
